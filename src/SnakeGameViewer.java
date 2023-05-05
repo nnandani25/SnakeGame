@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 
 public class SnakeGameViewer extends JFrame{
 
     private SnakeGame game;
-    private Snake snake;
-    private Board b;
     private final int WINDOW_WIDTH = 800;
     private final int WINDOW_HEIGHT = 800;
 
@@ -38,5 +39,17 @@ public class SnakeGameViewer extends JFrame{
 
     }
 
+    public void drawEndGame(Graphics g)
+    {
+        g.setColor(Color.CYAN);
+        g.drawRect(0,0,800,800);
+    }
 
+
+
+//    @Override
+//    public void paint(Graphics g)
+//    {
+//        b.draw(g, 0,0);
+//    }
 }
