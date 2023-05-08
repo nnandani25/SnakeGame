@@ -5,11 +5,12 @@ public class Pixel {
     private Color color;
     private boolean hasApple;
     private boolean isSnake;
-
+    private Image apple;
     private int row;
     private int col;
 
     private Snake s;
+
     public static final int SIZE = 40;
 
     public Pixel(Color color, boolean hasApple, boolean isSnake, int row, int col)
@@ -19,37 +20,21 @@ public class Pixel {
         this.isSnake = isSnake;
         this.row = row;
         this.col = col;
+        apple = new ImageIcon("Resources/apple.png").getImage();
     }
 
     public int getRow() {
         return row;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
 
     public int getCol() {
         return col;
     }
 
-    public void setCol(int col) {
-        this.col = col;
-    }
-
-    public void shiftXLeft()
+    public boolean getIsSnake()
     {
-        row-=1;
-    }
-
-    public void shiftXRight()
-    {
-        row+=1;
-    }
-
-
-    public Color getColor() {
-        return color;
+        return isSnake;
     }
 
     public void setColor(Color color) {
@@ -69,16 +54,21 @@ public class Pixel {
         isSnake = snake;
     }
 
-    public void draw(Graphics g, int x, int y)
+    public void draw(Graphics g, int x, int y, SnakeGameViewer viewer)
     {
+        int pink = (int)((Math.random()*234) + 22);
+        Color randPink = new Color(252,3,107);
+        Color blue = new Color(3,252,186);
         if(this.isSnake)
         {
-            g.setColor(Color.MAGENTA);
+            g.setColor(blue);
+
         }
 
         else if(this.hasApple)
         {
-            g.setColor(Color.RED);
+            g.setColor(randPink);
+            viewer.drawApple(g, x, y);
         }
 
         else

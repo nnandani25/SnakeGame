@@ -1,52 +1,62 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class SnakeGame implements KeyListener {
+public class SnakeGame implements KeyListener, ActionListener {
 
     private SnakeGameViewer window;
     private Snake snake;
     private Board b;
+    private  int delayInMilliSec = 150;
+    private boolean spacePressed = false;
+    private Timer clock;
+
 
 
     public SnakeGame()
     {
         b = new Board();
-        snake = new Snake(12,12, b);
+        snake = new Snake(b);
         window = new SnakeGameViewer(this);
         window.addKeyListener(this);
+        //this.window = new SnakeGameViewerDoubleBuffered(this);
+        clock = new Timer(delayInMilliSec, this);
+
     }
 
     public void draw(Graphics g)
     {
-        b.draw(g, 0, 0);
-        //Pixel p = new Pixel(Color.MAGENTA, false, true, 20,30);
+        b.draw(g, 0, 0, window);
 
-        //320,360
-//        if(snake.isApple())
-//        {
-//           b.eatApple();
-//        }
+        clock.start();
+        if(b.getScore() % 5 == 0)
+        {
+            delayInMilliSec -= 25;
+        }
 
 
+        checkWin(g);
     }
-
 
     public void checkWin(Graphics g)
     {
-        if(!snake.onBoard())
+        if(!snake.onBoard() || snake.getHasDied())
         {
+            clock.stop();
             window.drawEndGame(g);
         }
     }
 
+    public boolean getIsSpacePressed()
+    {
+        return spacePressed;
 
-
+    }
     public void game()
     {
-
-
     }
 
 
@@ -60,7 +70,8 @@ public class SnakeGame implements KeyListener {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_SPACE)
         {
-            snake.move();
+            spacePressed = true;
+            //snake.move();
         }
 
         if (keyCode == KeyEvent.VK_LEFT)
@@ -93,6 +104,15 @@ public class SnakeGame implements KeyListener {
     public static void main(String[] args)
     {
         SnakeGame game = new SnakeGame();
+
     }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        window.repaint();
+        snake.move();
+    }
+
+
 
 }

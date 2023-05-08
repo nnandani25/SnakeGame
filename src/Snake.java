@@ -3,31 +3,28 @@ import java.util.ArrayList;
 
 public class Snake {
 
-    private int headX;
-    private int headY;
-    private int dx;
-    private int dy;
 
     //North = 0 East = 1 South = 2 West = 3
     private int direction;
     private int lastDirection;
     private ArrayList<Pixel> snakePieces;
     private Board b;
-    private SnakeGameViewer v;
+    private boolean hasDied = false;
 
-    public Snake(int headX, int headY, Board b)
+    public Snake(Board b)
     {
         this.b = b;
         snakePieces = new ArrayList<Pixel>();
         int x = 8;
-        int y = 9;
+        int y = 10;
         for(int i = 0; i < 4; i++)
         {
-            snakePieces.add(b.getPixel(x+i, y));
-            b.getPixel(x+i, y).setSnake(true);
+            snakePieces.add(b.getPixel(x, y-i));
+            b.getPixel(x, y-i).setSnake(true);
         }
         direction = 1;
         lastDirection = 0;
+
     }
 
     public ArrayList<Pixel> getSnakePieces()
@@ -35,23 +32,11 @@ public class Snake {
         return snakePieces;
     }
 
-    public int getDx() {
-        return dx;
-    }
-
-    public int getDy() {
-        return dy;
-    }
-
     public boolean hitWall()
     {
         return false;
     }
 
-    public boolean touchingApple()
-    {
-        return false;
-    }
 
     public void setDirection(int direction)
     {
@@ -75,27 +60,15 @@ public class Snake {
         }
     }
 
-//    public void eatApple()
-//    {
-//        int r = snakePieces.get(0).getRow();
-//        int c = snakePieces.get(0).getCol();
-//        if(r == b.getAppleRow() && c+1 == b.getAppleCol())
-//        {
-//            b.getPixel(b.getAppleRow(), b.getAppleCol()).setColor(Color.MAGENTA);
-//            snakePieces.add(b.getPixel(b.getAppleRow(), b.getAppleCol()));
-//            b.changeNumApples();
-//        }
-//
-//    }
 
     public boolean onBoard()
     {
-        if(snakePieces.get(0).getRow() < b.NUM_ROWS || snakePieces.get(0).getRow() > b.NUM_ROWS)
+        if(snakePieces.get(0).getRow() <= 0 || snakePieces.get(0).getRow() >= b.NUM_ROWS-1)
         {
             return false;
         }
 
-        if(snakePieces.get(snakePieces.size()).getRow() < b.NUM_ROWS || snakePieces.get(snakePieces.size()).getRow() > b.NUM_ROWS)
+        if(snakePieces.get(0).getCol() <= 0 || snakePieces.get(0).getCol() >= b.NUM_ROWS-1)
         {
             return false;
         }
@@ -103,26 +76,12 @@ public class Snake {
         return true;
     }
 
-//    public boolean isApple()
-//    {
-//        int r = snakePieces.get(0).getRow();
-//        int c = snakePieces.get(0).getCol();
-//        if(r == b.getAppleRow() && c == b.getAppleCol())
-//        {
-//            return true;
-//        }
-//        return false;
-//    }
 
     public void move()
     {
         snakePieces.remove(snakePieces.size()-1).setSnake(false);
         int r = snakePieces.get(0).getRow();
         int c = snakePieces.get(0).getCol();
-        if(snakePieces.get(0).isHasApple())
-        {
-            snakePieces.get(0).setColor(Color.MAGENTA);
-        }
 
         if(direction == 0)
         {
@@ -143,11 +102,35 @@ public class Snake {
         {
             c--;
         }
-        snakePieces.add(0, b.getPixel(r,c));
-        snakePieces.get(0).setSnake(true);
-        lastDirection = direction;
+
+        if(snakePieces.get(0).isHasApple())
+        {
+            snakePieces.add(b.getPixel(r+1,c));
+            b.changeNumApples();
+            b.addApple();
+        }
+
+        if(b.getPixel(r,c).getIsSnake() == false)
+        {
+            snakePieces.add(0, b.getPixel(r, c));
+            snakePieces.get(0).setSnake(true);
+            lastDirection = direction;
+        }
+
+        else
+        {
+            hasDied = true;
+        }
+
+
+
+
     }
 
+    public boolean getHasDied()
+    {
+        return hasDied;
+    }
 
 
 }
