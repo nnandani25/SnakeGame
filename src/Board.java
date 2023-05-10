@@ -92,20 +92,6 @@ public class Board{
     {
         score++;
         Pixel p = getPixel(appleRow, appleCol);
-        if(p.getIsSnake())
-        {
-            if(appleRow % 2 == 0 && appleCol % 2 != 0)
-            {
-                board[appleRow][appleCol].setColor(lightGreen);
-
-            }
-
-            if(appleRow % 2 != 0 && appleCol % 2 == 0)
-            {
-                board[appleRow][appleCol].setColor(darkGreen);
-            }
-
-        }
 
         if(numApples == 0)
         {
@@ -131,5 +117,19 @@ public class Board{
     {
         return board[row][col];
     }
+
+    public void resetBoard()
+    {
+        for(int i = 0; i < NUM_ROWS; i++)
+        {
+            for(int j = 0; j < NUM_ROWS; j++)
+            {
+                getPixel(i, j).setSnake(false);
+                getPixel(i, j).setHasApple(false);
+
+            }
+        }
+    }
+
 
 }

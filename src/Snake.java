@@ -24,6 +24,8 @@ public class Snake {
         }
         direction = 1;
         lastDirection = 0;
+        snakePieces.get(0).setHead(true);
+        snakePieces.get(0).setHeadDirection(direction);
 
     }
 
@@ -61,25 +63,24 @@ public class Snake {
     }
 
 
-    public boolean onBoard()
-    {
-        if(snakePieces.get(0).getRow() <= 0 || snakePieces.get(0).getRow() >= b.NUM_ROWS-1)
-        {
-            return false;
-        }
-
-        if(snakePieces.get(0).getCol() <= 0 || snakePieces.get(0).getCol() >= b.NUM_ROWS-1)
-        {
-            return false;
-        }
-
-        return true;
-    }
+//    public boolean onBoard()
+//    {
+//        if(snakePieces.get(0).getRow() <= 0 || snakePieces.get(0).getRow() >= b.NUM_ROWS-1)
+//        {
+//            return false;
+//        }
+//
+//        if(snakePieces.get(0).getCol() <= 0 || snakePieces.get(0).getCol() >= b.NUM_ROWS-1)
+//        {
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
 
     public void move()
     {
-        snakePieces.remove(snakePieces.size()-1).setSnake(false);
         int r = snakePieces.get(0).getRow();
         int c = snakePieces.get(0).getCol();
 
@@ -105,15 +106,22 @@ public class Snake {
 
         if(snakePieces.get(0).isHasApple())
         {
-            snakePieces.add(b.getPixel(r+1,c));
             b.changeNumApples();
             b.addApple();
         }
 
-        if(b.getPixel(r,c).getIsSnake() == false)
+        else
         {
+            snakePieces.remove(snakePieces.size()-1).setSnake(false);
+        }
+
+        if(r >= 0 && r < b.NUM_ROWS && c >= 0 && c < b.NUM_ROWS && b.getPixel(r,c).getIsSnake() == false)
+        {
+            snakePieces.get(0).setHead(false);
             snakePieces.add(0, b.getPixel(r, c));
+            snakePieces.get(0).setHead(true);
             snakePieces.get(0).setSnake(true);
+            snakePieces.get(0).setHeadDirection(direction);
             lastDirection = direction;
         }
 
