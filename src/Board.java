@@ -3,7 +3,6 @@ import java.awt.*;
 public class Board{
 
     private Pixel[][] board;
-    private int width = 800;
     public final int NUM_ROWS = 20;
     private Color lightGreen = new Color(138,226,42);
     private Color darkGreen = new Color(112, 188, 30);
@@ -15,6 +14,7 @@ public class Board{
 
     public Board()
     {
+        // Creates the board and sets the color of the pixels.
         board = new Pixel[NUM_ROWS][NUM_ROWS];
         for(int i = 0; i < board.length; i++)
         {
@@ -34,15 +34,19 @@ public class Board{
 
             }
         }
-        appleRow = 8;//(int)(Math.random()*NUM_ROWS);
-        appleCol = 12;//(int)(Math.random()*NUM_ROWS);
+        // Initializes the first position of the apple and sets hasApple to true.
+        appleRow = 8;
+        appleCol = 12;
         board[appleRow][appleCol].setHasApple(true);
+        // Creates a snake.
         s = new Snake(this);
 
     }
 
+    // Draws the board by individually drawing the pixels and displays the score.
     public void draw(Graphics g, int x, int y, SnakeGameViewer v)
     {
+        // Goes through the board and draws each pixel.
         for(int i = 0; i < board.length; i++)
         {
             for(int j = 0; j < board.length; j++)
@@ -51,48 +55,19 @@ public class Board{
             }
         }
 
+        // Draws the score and updates it.
         g.setColor(Color.BLACK);
         g.setFont(new Font("Public Pixel", Font.PLAIN, 20));
         g.drawString("Score: " + score, 600, 70);
     }
 
-    public void setBoard(int x, int y, Pixel p)
-    {
-        if(x <= board.length && y <= board.length)
-        {
-            board[x][y] = p;
-        }
-    }
-
-    public void repaint()
-    {
-        this.repaint();
-    }
-    public Pixel[][] getBoard()
-    {
-        return board;
-
-    }
-
-    public int getScore()
-    {
-        return score;
-    }
-    public int getAppleRow()
-    {
-        return appleRow;
-    }
-
-    public int getAppleCol()
-    {
-        return appleCol;
-    }
-
+    // Adds an apple to the board at a random position.
     public void addApple()
     {
         score++;
         Pixel p = getPixel(appleRow, appleCol);
 
+        // Ensures that there is only one apple on the board at a time.
         if(numApples == 0)
         {
             appleRow = (int)(Math.random()*NUM_ROWS);
@@ -103,32 +78,16 @@ public class Board{
         p.setHasApple(false);
     }
 
-//    public void eatApple()
-//    {
-//        board[appleRow][appleCol].setColor(Color.MAGENTA);
-//        s.getSnakePieces().add(s.getSnakePieces().size(),board[][]);
-//    }
+    // Subrats one from the number of apples.
     public void changeNumApples()
     {
         numApples--;
     }
 
+    // Returns the pixel based on the row and col.
     public Pixel getPixel(int row, int col)
     {
         return board[row][col];
-    }
-
-    public void resetBoard()
-    {
-        for(int i = 0; i < NUM_ROWS; i++)
-        {
-            for(int j = 0; j < NUM_ROWS; j++)
-            {
-                getPixel(i, j).setSnake(false);
-                getPixel(i, j).setHasApple(false);
-
-            }
-        }
     }
 
 
