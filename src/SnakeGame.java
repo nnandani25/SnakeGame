@@ -31,7 +31,7 @@ public class SnakeGame implements ActionListener {
         {
             clock.start();
         }
-        //Constantly checking if the player has died.
+        // Constantly checking if the player has died.
         checkWin(g);
     }
 

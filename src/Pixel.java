@@ -25,7 +25,7 @@ public class Pixel {
         apple = new ImageIcon("Resources/apple.png").getImage();
     }
 
-    // Sets the head.
+    // Sets the setHead variable.
     public void setHead(boolean head) {
         isHead = head;
     }

@@ -78,7 +78,7 @@ public class Board{
         p.setHasApple(false);
     }
 
-    // Subrats one from the number of apples.
+    // Subtracts one from the number of apples.
     public void changeNumApples()
     {
         numApples--;

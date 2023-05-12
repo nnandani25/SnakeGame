@@ -38,7 +38,7 @@ public class SnakeGameViewer extends JFrame implements KeyListener {
         this.repaint();
     }
 
-    // Implements a buffer strategy to make the game run smoother.
+    // Implements a buffer strategy which makes the game run smoother.
     public void paint(Graphics g)
     {
         BufferStrategy bf = this.getBufferStrategy();

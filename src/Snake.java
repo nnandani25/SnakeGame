@@ -13,7 +13,7 @@ public class Snake {
 
     public Snake(Board b)
     {
-        // Initializes the instance variables and the arrayList.
+        // Initializes the instance variables and the snakePieces arrayList.
         this.b = b;
         hasDied = false;
         snakePieces = new ArrayList<Pixel>();
